@@ -10,7 +10,7 @@ Internet → Cloudflare (free) → Vercel (free) ← GitHub (CI/CD)
 - **Registrar**: Namecheap (nameservers pointed to Cloudflare)
 - **DNS / Security**: Cloudflare free tier (DDoS, WAF, bot protection, SSL)
 - **Hosting**: Vercel (auto-deploys from GitHub `main` branch)
-- **Code**: GitHub repository
+- **Code**: https://github.com/jrumacias/jrmacias.com
 
 ## Tech Stack
 - **Framework**: Astro
@@ -30,10 +30,9 @@ Internet → Cloudflare (free) → Vercel (free) ← GitHub (CI/CD)
 - **Contact info**: Never in plain HTML text — always behind a form
 
 ## Key Commands
-> Filled in after scaffolding.
 
 ```bash
-npm run dev      # Start local dev server
+npm run dev      # Start local dev server (http://localhost:4321)
 npm run build    # Build for production
 npm run preview  # Preview production build locally
 ```
@@ -46,7 +45,21 @@ npm run preview  # Preview production build locally
 - Never put contact info (email, phone) in plain HTML
 
 ## Project Structure
-> Filled in after scaffolding.
+
+```
+jrmacias.com/
+├── public/          # Static assets (favicon, images)
+├── src/
+│   ├── pages/       # File-based routing — each .astro file = a page
+│   ├── layouts/     # Shared page layouts (to be created)
+│   ├── components/  # Reusable UI components (to be created)
+│   └── styles/
+│       └── global.css  # Global styles + Tailwind imports
+├── astro.config.mjs # Astro + Tailwind config
+├── tsconfig.json    # TypeScript config
+├── CLAUDE.md        # This file
+└── PROGRESS.md      # Session log
+```
 
 ## Useful References
 - [Astro Docs](https://docs.astro.build)

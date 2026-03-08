@@ -1,6 +1,6 @@
 # Project Progress Log
 
-## Status: Setup Phase — Ready to begin Step 1
+## Status: Infrastructure Setup — Vercel + Cloudflare remaining
 
 ---
 
@@ -10,16 +10,15 @@
 - **Registrar**: Namecheap — keep as registrar, point nameservers to Cloudflare
 - **Security/CDN**: Cloudflare (free) — DDoS, WAF, bot protection, SSL, hides origin IP
 - **Hosting**: Vercel (free) — CI/CD auto-deploys from GitHub `main`
-- **Code**: GitHub (account confirmed)
-- **Architecture**: Internet → Cloudflare → Vercel ← GitHub
+- **Code**: https://github.com/jrumacias/jrmacias.com
 
 ### Tech Stack
-- **Framework**: Astro
-- **Styling**: Tailwind CSS
-- **Language**: TypeScript
+- **Framework**: Astro 5
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript (strict)
+- **Node**: v24.14.0 via nvm
 - **Fonts**: JetBrains Mono
 - **Contact protection**: Resend (email delivery) + Cloudflare Turnstile (CAPTCHA)
-  - Email never exposed as plain HTML text
 
 ### Design
 - Dark mode default, light mode toggle
@@ -30,31 +29,22 @@
 
 ---
 
-## Open Questions
-- [x] GitHub username: `jrumacias` — https://github.com/jrumacias
-- [x] Vercel account: created
-
----
-
 ## Session Log
 
 ### Session 1 — 2026-03-07
-**Goal**: Establish project foundation before writing any code.
-
 **Completed**:
-- Created `CLAUDE.md` with full project instructions
-- Created `PROGRESS.md` for session tracking
-- Confirmed all major architectural and design decisions (see above)
+- Installed nvm + Node.js v24.14.0
+- Installed gh CLI to ~/.local/bin
+- Scaffolded Astro 5 + Tailwind CSS 4 + TypeScript (strict) project
+- Disabled Astro telemetry
+- Initial commit pushed to https://github.com/jrumacias/jrmacias.com
 
 **Next Steps** (in order):
-1. Install Node.js via `nvm`
-2. Initialize git repo locally
-3. Create GitHub repository and push
-4. Scaffold Astro project (Tailwind + TypeScript template)
-5. Fill in `CLAUDE.md` key commands and project structure
-6. Connect GitHub repo to Vercel
-7. Set up Cloudflare — point Namecheap nameservers to Cloudflare
-8. Point domain to Vercel in Cloudflare DNS
-9. Design and build the site (dark mode, JetBrains Mono, y2k flairs)
+1. Connect GitHub repo to Vercel (import project in Vercel dashboard)
+2. Set up Cloudflare — create free account, add jrmacias.com site
+3. Point Namecheap nameservers to Cloudflare
+4. Add Vercel deployment domain in Cloudflare DNS
+5. Verify site is live at https://jrmacias.com
+6. Begin building the site: Layout, hero, dark/light mode toggle, JetBrains Mono
 
 ---

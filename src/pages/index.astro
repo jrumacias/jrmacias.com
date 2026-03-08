@@ -13,6 +13,8 @@ import Layout from '../layouts/Layout.astro';
 
     <section id="contact-section" class="contact-section" aria-hidden="true">
       <form id="contact-form" action="https://formspree.io/f/mbdzlklq" method="POST" novalidate>
+        <!-- Honeypot: bots fill this, humans never see it, Formspree silently discards the submission -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
         <div class="field">
           <label for="email">your email</label>
           <input

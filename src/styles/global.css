@@ -1,1 +1,43 @@
 @import "tailwindcss";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/* ── Theme tokens ───────────────────────────────────────────── */
+:root {
+  --bg:           #0c0c0c;
+  --surface:      #141414;
+  --text:         #e2e2e2;
+  --muted:        #444;
+  --border:       #222;
+  --grid-line:    rgba(255, 255, 255, 0.032);
+  --shine-dim:    #a0a0a0;
+  --shine-bright: #ffffff;
+}
+
+:root.light {
+  --bg:           #f4f4f4;
+  --surface:      #ffffff;
+  --text:         #141414;
+  --muted:        #999;
+  --border:       #ddd;
+  --grid-line:    rgba(0, 0, 0, 0.05);
+  --shine-dim:    #141414;
+  --shine-bright: #666;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+html {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background-color: var(--bg);
+  color: var(--text);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  min-height: 100dvh;
+}
+

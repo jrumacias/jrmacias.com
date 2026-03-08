@@ -1,6 +1,6 @@
 # Project Progress Log
 
-## Status: Infrastructure Complete — Ready to build the site
+## Status: v1 Live — Site live at https://jrmacias.com
 
 ---
 
@@ -15,17 +15,20 @@
 
 ### Tech Stack
 - **Framework**: Astro 5
-- **Styling**: Tailwind CSS 4
+- **Styling**: Tailwind CSS 4 + CSS custom properties for theming
 - **Language**: TypeScript (strict)
 - **Node**: v24.14.0 via nvm
-- **Fonts**: JetBrains Mono
-- **Contact protection**: Resend (email delivery) + Cloudflare Turnstile (CAPTCHA) — planned
+- **Fonts**: JetBrains Mono (self-hosted via @fontsource/jetbrains-mono)
+- **Contact**: Formspree (https://formspree.io/f/mbdzlklq) — AJAX submission
+- **Contact protection (future)**: Cloudflare Turnstile CAPTCHA — planned
 
 ### Design
-- Dark mode default, light mode toggle
-- Clean minimal tech blog aesthetic
-- Subtle y2k flairs: grid textures, monospace accents, small glitch/terminal touches
-- JetBrains Mono throughout
+- Dark mode default, light mode toggle (top-right, `[ light ]` / `[ dark ]`)
+- Theme persisted in localStorage, applied before paint (no flash)
+- "hello, i'm juan." with slow flowing text shine animation (6s, CSS gradient)
+- "send a message →" button reveals contact form (smooth CSS grid transition)
+- Contact form: email + message fields, AJAX submit, inline success state
+- Subtle dot grid background
 - Blog component planned for a future session
 
 ---
@@ -34,25 +37,27 @@
 
 ### Session 1 — 2026-03-07
 **Completed**:
-- Installed nvm + Node.js v24.14.0
-- Installed gh CLI to ~/.local/bin, Vercel CLI globally
-- Scaffolded Astro 5 + Tailwind CSS 4 + TypeScript (strict) project
-- Disabled Astro telemetry
-- Initial commit pushed to https://github.com/jrumacias/jrmacias.com
-- Deployed to Vercel, connected GitHub repo (auto-deploys on push to main)
-- Set up Cloudflare — nameservers updated in Namecheap
-- Added A record in Cloudflare → Vercel (76.76.21.21), www CNAME
-- Cloudflare SSL set to "Full" mode
-- Verified: https://jrmacias.com returns HTTP 200 through Cloudflare → Vercel
+- Installed nvm + Node.js v24.14.0, gh CLI, Vercel CLI
+- Scaffolded Astro 5 + Tailwind CSS 4 + TypeScript (strict)
+- Pushed to GitHub, deployed to Vercel
+- Cloudflare set up (DDoS, WAF, SSL) — nameservers updated in Namecheap
+- Verified https://jrmacias.com live through Cloudflare → Vercel
 
-**Next Steps** (start of next session):
-1. Create a feature branch: `git checkout -b feat/initial-design`
-2. Build the base Layout component (src/layouts/Layout.astro)
-   - Import JetBrains Mono font
-   - Dark/light mode toggle with localStorage persistence
-   - Global CSS variables for color tokens
-3. Build the home page hero section
-4. Add subtle y2k design flairs (grid background, monospace accents)
-5. Commit, push, open PR → merge to main → auto-deploy
+### Session 2 — 2026-03-07
+**Completed**:
+- Created `src/layouts/Layout.astro` — base HTML shell, theme init script
+- Created `src/components/ThemeToggle.astro` — `[ light ]` / `[ dark ]` fixed button
+- Rewrote `src/pages/index.astro` — greeting, reveal-on-click contact form
+- Updated `src/styles/global.css` — CSS vars for theme tokens, shine tokens
+- Self-hosted JetBrains Mono via @fontsource
+- Text shine animation on greeting (CSS background-clip gradient)
+- Fixed GitHub default branch: renamed `master` → `main`
+- PR #1 merged → auto-deployed to production
+
+**Next Steps** (future sessions):
+1. Add blog section — Astro content collections (markdown-based posts)
+2. Add Cloudflare Turnstile CAPTCHA to contact form
+3. Consider a `/uses` or `/about` page
+4. Favicon — replace default Astro favicon with something personal
 
 ---

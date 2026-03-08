@@ -54,10 +54,15 @@
 - Fixed GitHub default branch: renamed `master` → `main`
 - PR #1 merged → auto-deployed to production
 
+### Session 2 continued
+**Completed**:
+- Replaced Astro default favicon with pixel art vinyl record SVG (16×16 grid)
+- Stripped full name from all page metadata (title → `jrmacias`, description → `jrmacias.com`)
+- PR #2 merged → auto-deployed
+
 **Next Steps** (future sessions):
 1. Add blog section — Astro content collections (markdown-based posts)
 2. Add Cloudflare Turnstile CAPTCHA to contact form
 3. Consider a `/uses` or `/about` page
-4. Favicon — replace default Astro favicon with something personal
 
 ---

@@ -1,0 +1,47 @@
+---
+---
+
+<button id="theme-toggle" aria-label="Toggle color theme">
+  <span id="theme-label">[ light ]</span>
+</button>
+
+<style>
+  button {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s ease;
+    z-index: 10;
+  }
+
+  button:hover {
+    color: var(--text);
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('theme-toggle')!;
+  const label  = document.getElementById('theme-label')!;
+  const root   = document.documentElement;
+
+  function updateLabel() {
+    label.textContent = root.classList.contains('light') ? '[ dark ]' : '[ light ]';
+  }
+
+  updateLabel();
+
+  toggle.addEventListener('click', () => {
+    const isLight = root.classList.contains('light');
+    root.classList.toggle('light', !isLight);
+    localStorage.setItem('theme', isLight ? 'dark' : 'light');
+    updateLabel();
+  });
+</script>

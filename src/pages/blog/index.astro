@@ -1,0 +1,192 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft && !data.private);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
+const filtered = posts;
+
+function readingTime(body: string | undefined): string {
+  if (!body) return '1 min read';
+  const words = body.trim().split(/\s+/).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  return `${mins} min read`;
+}
+---
+
+<Layout title="blog / jrmacias" description="Thoughts on tech, building things, and whatever else I find interesting.">
+  <main>
+    <div class="header">
+      <a href="/" class="back">← home</a>
+      <h1>blog</h1>
+      <p class="subtitle">www.juanthoughts.gov.www\juanthoughts</p>
+    </div>
+
+    {allTags.length > 0 && (
+      <div class="tags-filter">
+        <a href="/blog" class="tag active"># all</a>
+        {allTags.map(tag => (
+          <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+        ))}
+      </div>
+    )}
+
+    {filtered.length === 0 ? (
+      <p class="empty">no posts yet.</p>
+    ) : (
+      <ul class="post-list">
+        {filtered.map(post => (
+          <li>
+            <a href={`/blog/${post.slug}`} class="post-link">
+              <span class="post-date">
+                {post.data.date.toISOString().slice(0, 10)}
+              </span>
+              <span class="post-title">{post.data.title}</span>
+              <span class="post-meta">
+                {readingTime(post.body)}
+                {post.data.tags.map(tag => (
+                  <span class="post-tag">#{tag}</span>
+                ))}
+              </span>
+              {post.data.description && (
+                <span class="post-desc">{post.data.description}</span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+    background: var(--bg-translucent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-height: 100dvh;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+
+  .back {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+  .back:hover { color: var(--text); }
+
+  h1 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  .tags-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.5rem;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tag:hover, .tag.active {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .post-link {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1.5rem;
+    row-gap: 0.25rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: opacity 0.15s;
+  }
+  .post-link:hover { opacity: 0.7; }
+
+  .post-date {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    padding-top: 0.15rem;
+    grid-row: 1;
+  }
+
+  .post-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    grid-row: 1;
+  }
+
+  .post-meta {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .post-tag {
+    color: var(--muted);
+  }
+
+  .post-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    grid-column: 2;
+    grid-row: 3;
+    padding-top: 0.1rem;
+  }
+
+  .empty {
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+</style>

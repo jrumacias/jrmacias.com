@@ -1,0 +1,258 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft && !data.private);
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      prev: posts[i + 1] ?? null,
+      next: posts[i - 1] ?? null,
+    },
+  }));
+}
+
+const { post, prev, next } = Astro.props;
+const { Content } = await render(post);
+
+function readingTime(body: string | undefined): string {
+  if (!body) return '1 min read';
+  const words = body.trim().split(/\s+/).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  return `${mins} min read`;
+}
+
+const dateStr = post.data.date.toISOString().slice(0, 10);
+---
+
+<Layout
+  title={`${post.data.title} / jrmacias`}
+  description={post.data.description}
+  image={post.data.image}
+>
+  <main>
+    <div class="header">
+      <a href="/blog" class="back">← blog</a>
+      <h1>{post.data.title}</h1>
+      <div class="meta">
+        <span>{dateStr}</span>
+        <span>{readingTime(post.body)}</span>
+        {post.data.tags.map(tag => (
+          <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+        ))}
+      </div>
+      {post.data.description && <p class="desc">{post.data.description}</p>}
+    </div>
+
+    <article class="prose">
+      <Content />
+    </article>
+
+    <nav class="post-nav">
+      {next ? (
+        <a href={`/blog/${next.slug}`} class="nav-link prev">
+          <span class="nav-label">← newer</span>
+          <span class="nav-title">{next.data.title}</span>
+        </a>
+      ) : <span />}
+      {prev ? (
+        <a href={`/blog/${prev.slug}`} class="nav-link next">
+          <span class="nav-label">older →</span>
+          <span class="nav-title">{prev.data.title}</span>
+        </a>
+      ) : <span />}
+    </nav>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+    background: var(--bg-translucent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-height: 100dvh;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .back {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+  .back:hover { color: var(--text); }
+
+  h1 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.75rem;
+    line-height: 1.25;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .tag:hover { color: var(--text); }
+
+  .desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── Prose ─────────────────────────────────────────────────── */
+  .prose {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4) {
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+    line-height: 1.3;
+  }
+  .prose :global(h2) { font-size: 1.2rem; }
+  .prose :global(h3) { font-size: 1rem; }
+  .prose :global(h4) { font-size: 0.9rem; }
+
+  .prose :global(p) { margin: 0 0 1.25rem; }
+
+  .prose :global(a) {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.15s;
+  }
+  .prose :global(a:hover) { opacity: 0.7; }
+
+  .prose :global(code) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+
+  .prose :global(pre) {
+    background: var(--surface) !important;
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 0 0 1.5rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .prose :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--muted);
+    padding-left: 1rem;
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin: 0 0 1.25rem;
+  }
+  .prose :global(li) { margin-bottom: 0.35rem; }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .prose :global(img) {
+    max-width: 100%;
+    border: 1px solid var(--border);
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 0 0 1.5rem;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  .prose :global(th) { color: var(--muted); font-weight: 700; }
+
+  /* ── Post nav ──────────────────────────────────────────────── */
+  .post-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-decoration: none;
+    max-width: 45%;
+    transition: opacity 0.15s;
+  }
+  .nav-link:hover { opacity: 0.7; }
+  .nav-link.next { text-align: right; margin-left: auto; }
+
+  .nav-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .nav-title {
+    font-size: 0.82rem;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+</style>

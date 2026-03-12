@@ -5,6 +5,7 @@
 /* ── Theme tokens ───────────────────────────────────────────── */
 :root {
   --bg:           #0c0c0c;
+  --bg-translucent: rgba(12, 12, 12, 0.35);
   --surface:      #141414;
   --text:         #e2e2e2;
   --muted:        #444;
@@ -16,6 +17,7 @@
 
 :root.light {
   --bg:           #f4f4f4;
+  --bg-translucent: rgba(244, 244, 244, 0.35);
   --surface:      #ffffff;
   --text:         #141414;
   --muted:        #999;

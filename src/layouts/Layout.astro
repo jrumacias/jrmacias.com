@@ -5,12 +5,19 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title = 'jrmacias',
   description = 'jrmacias.com',
+  image,
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://jrmacias.com');
+const ogImage = image
+  ? new URL(image, Astro.site ?? 'https://jrmacias.com').toString()
+  : undefined;
 ---
 
 <!doctype html>
@@ -19,7 +26,20 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="jrmacias blog" href="/rss.xml" />
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="jrmacias" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <!-- Twitter/X card -->
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
     <title>{title}</title>
     <!-- Runs before paint to prevent flash of wrong theme -->
     <script is:inline>
@@ -29,7 +49,44 @@ const {
     </script>
   </head>
   <body>
+    <nav class="site-nav">
+      <div class="site-nav-inner">
+        <a href="/" class="nav-link">HOME</a>
+        <a href="/blog" class="nav-link">BLOG</a>
+      </div>
+    </nav>
     <ThemeToggle />
     <slot />
   </body>
+
+<style>
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-translucent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .site-nav-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-link:hover { color: var(--text); }
+</style>
 </html>

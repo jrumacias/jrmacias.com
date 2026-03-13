@@ -32,8 +32,6 @@ html {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   background-color: var(--bg);
   color: var(--text);
-  background-image: radial-gradient(circle, var(--grid-line) 1px, transparent 1px);
-  background-size: 28px 28px;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 

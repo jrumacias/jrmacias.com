@@ -95,4 +95,65 @@ const ogImage = image
     box-shadow: 0 0 6px var(--border);
   }
 </style>
+
+<script>
+  // ── Animated dot-grid background ─────────────────────────────
+  const SPACING      = 28;
+  const DOT_R        = 1;
+  const WAVE_INTERVAL  = 5000; // ms between wave starts
+  const WAVE_DURATION  = 2000; // ms for wave to cross the full diagonal
+  const WAVE_WIDTH     = 160;  // px spread of the wave band
+
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext('2d')!;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Trigger first wave immediately
+  let lastWaveTime = -WAVE_INTERVAL;
+
+  function frame(ts: number) {
+    const w = canvas.width;
+    const h = canvas.height;
+    const isLight   = document.documentElement.classList.contains('light');
+    const baseAlpha = isLight ? 0.10 : 0.07;
+    const peakAlpha = isLight ? 0.35 : 0.42;
+    const rgb       = isLight ? '0,0,0' : '255,255,255';
+
+    ctx.clearRect(0, 0, w, h);
+
+    if (ts - lastWaveTime >= WAVE_INTERVAL) lastWaveTime = ts;
+    const elapsed   = ts - lastWaveTime;
+    const maxDiag   = w + h;
+    const waveFront = (elapsed / WAVE_DURATION) * (maxDiag + WAVE_WIDTH);
+
+    for (let x = 0; x <= w + SPACING; x += SPACING) {
+      for (let y = 0; y <= h + SPACING; y += SPACING) {
+        // Each dot's distance from the bottom-left corner
+        const d             = x + (h - y);
+        const distFromFront = waveFront - d;
+        let alpha = baseAlpha;
+        if (distFromFront >= 0 && distFromFront <= WAVE_WIDTH) {
+          const t = distFromFront / WAVE_WIDTH;
+          alpha = baseAlpha + (peakAlpha - baseAlpha) * Math.sin(t * Math.PI);
+        }
+        ctx.beginPath();
+        ctx.arc(x, y, DOT_R, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${rgb},${alpha})`;
+        ctx.fill();
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
+</script>
 </html>

@@ -81,12 +81,18 @@ const ogImage = image
   }
 
   .nav-link {
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
     color: var(--muted);
     text-decoration: none;
-    transition: color 0.15s;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.65rem;
+    transition: color 0.15s, border-color 0.15s, box-shadow 0.15s;
   }
-  .nav-link:hover { color: var(--text); }
+  .nav-link:hover {
+    color: var(--text);
+    border-color: var(--muted);
+    box-shadow: 0 0 6px var(--border);
+  }
 </style>
 </html>

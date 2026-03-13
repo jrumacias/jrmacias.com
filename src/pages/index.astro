@@ -93,18 +93,20 @@ import Layout from '../layouts/Layout.astro';
 
   .contact-btn {
     background: none;
-    border: none;
+    border: 1px solid var(--border);
     color: var(--muted);
     font-family: inherit;
     font-size: 0.8rem;
     letter-spacing: 0.06em;
     cursor: pointer;
-    padding: 0;
-    transition: color 0.15s ease;
+    padding: 0.35rem 0.85rem;
+    transition: color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
   .contact-btn:hover {
     color: var(--text);
+    border-color: var(--muted);
+    box-shadow: 0 0 6px var(--border);
   }
 
   .contact-btn:hover .arrow {

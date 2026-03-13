@@ -8,9 +8,9 @@
   --bg-translucent: rgba(12, 12, 12, 0.35);
   --surface:      #141414;
   --text:         #e2e2e2;
-  --muted:        #444;
-  --border:       #222;
-  --grid-line:    rgba(255, 255, 255, 0.032);
+  --muted:        #888;
+  --border:       #2e2e2e;
+  --grid-line:    rgba(255, 255, 255, 0.07);
   --shine-dim:    #a0a0a0;
   --shine-bright: #ffffff;
 }
@@ -22,7 +22,7 @@
   --text:         #141414;
   --muted:        #999;
   --border:       #ddd;
-  --grid-line:    rgba(0, 0, 0, 0.05);
+  --grid-line:    rgba(0, 0, 0, 0.1);
   --shine-dim:    #141414;
   --shine-bright: #666;
 }
@@ -32,10 +32,8 @@ html {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   background-color: var(--bg);
   color: var(--text);
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-image: radial-gradient(circle, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 

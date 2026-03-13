@@ -4,12 +4,12 @@
 
 /* ── Theme tokens ───────────────────────────────────────────── */
 :root {
-  --bg:           #0c0c0c;
-  --bg-translucent: rgba(12, 12, 12, 0.35);
-  --surface:      #141414;
-  --text:         #e2e2e2;
-  --muted:        #888;
-  --border:       #2e2e2e;
+  --bg:           #111111;
+  --bg-translucent: rgba(17, 17, 17, 0.35);
+  --surface:      #1a1a1a;
+  --text:         #f0f0f0;
+  --muted:        #a0a0a0;
+  --border:       #333;
   --grid-line:    rgba(255, 255, 255, 0.15);
   --shine-dim:    #a0a0a0;
   --shine-bright: #ffffff;

@@ -100,9 +100,9 @@ const ogImage = image
   // ── Animated dot-grid background ─────────────────────────────
   const SPACING      = 28;
   const DOT_R        = 1;
-  const WAVE_INTERVAL  = 5000; // ms between wave starts
-  const WAVE_DURATION  = 2000; // ms for wave to cross the full diagonal
-  const WAVE_WIDTH     = 160;  // px spread of the wave band
+  const WAVE_INTERVAL  = 9000; // ms between wave starts
+  const WAVE_DURATION  = 2400; // ms for wave to cross the full diagonal
+  const WAVE_WIDTH     = 320;  // px spread of the wave band
 
   const canvas = document.createElement('canvas');
   canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
@@ -124,7 +124,7 @@ const ogImage = image
     const h = canvas.height;
     const isLight   = document.documentElement.classList.contains('light');
     const baseAlpha = isLight ? 0.10 : 0.07;
-    const peakAlpha = isLight ? 0.35 : 0.42;
+    const peakAlpha = isLight ? 0.20 : 0.18;
     const rgb       = isLight ? '0,0,0' : '255,255,255';
 
     ctx.clearRect(0, 0, w, h);
